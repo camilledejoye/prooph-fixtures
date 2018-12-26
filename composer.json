@@ -1,0 +1,42 @@
+{
+    "name": "elythyr/prooph-fixtures",
+    "description": "First attempt to make something similar to DoctrineFixtures with Prooph",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Camille Dejoye",
+            "email": "cdejoye@houra.fr"
+        }
+    ],
+    "require": {
+        "prooph/event-store": "^7.5",
+        "psr/container": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/php-invoker": "^2.0",
+        "phpunit/phpunit": "^7.5",
+        "prooph/php-cs-fixer-config": "^0.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Prooph\\Fixtures\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Prooph\\Fixtures\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff",
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
