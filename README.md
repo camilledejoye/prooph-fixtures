@@ -1,5 +1,8 @@
 # Prooph Fixtures
 
+[![Build Status](https://travis-ci.org/elythyr/prooph-fixtures.svg?branch=master)](https://travis-ci.org/elythyr/prooph-fixtures)
+[![Coverage Status](https://coveralls.io/repos/github/elythyr/prooph-fixtures/badge.svg?branch=master)](https://coveralls.io/github/elythyr/prooph-fixtures?branch=master)
+
 During my experiments with ES I find myself in a situation where Doctrine data fixtures missed me.
 
 Thats why I decided to try to reproduce something similar for Prooph.
@@ -17,7 +20,7 @@ composer require --dev elythyr/prooph-fixtures
 ## Configuration
 
 There is no configuration per se.
-The all configuration should already be done, see [Prooph EventStore](https://github.com/prooph/event-store)
+All the configuration should already be done, see [Prooph EventStore](https://github.com/prooph/event-store)
 for more information.
 
 
