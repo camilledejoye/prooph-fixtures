@@ -6,7 +6,7 @@
     "authors": [
         {
             "name": "Camille Dejoye",
-            "email": "cdejoye@houra.fr"
+            "email": "camilledejoye@gmail.com"
         }
     ],
     "require": {
@@ -33,9 +33,9 @@
             "@cs",
             "@test"
         ],
-        "cs": "php-cs-fixer fix -v --diff --dry-run",
-        "cs-fix": "php-cs-fixer fix -v --diff",
-        "test": "phpunit"
+        "cs": "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "vendor/bin/php-cs-fixer fix -v --diff",
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true
