@@ -2,6 +2,7 @@
     "name": "elythyr/prooph-fixtures",
     "description": "First attempt to make something similar to DoctrineFixtures with Prooph",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Camille Dejoye",
