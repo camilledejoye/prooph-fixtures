@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Prooph\Fixtures\Fixture;
 
-abstract class DependentFixture implements Fixture
+interface DependentFixture extends Fixture
 {
     /**
      * Gets the dependencies of a fixture.
@@ -19,17 +19,5 @@ abstract class DependentFixture implements Fixture
      *
      * @return string[]
      */
-    abstract public static function getDependencies(): array;
-
-    /**
-     * Checks if a fixture depends on another.
-     *
-     * @param Fixture $other
-     *
-     * @return bool
-     */
-    public static function dependsOn(Fixture $other): bool
-    {
-        return \in_array(\get_class($other), static::getDependencies());
-    }
+    public static function getDependencies(): array;
 }

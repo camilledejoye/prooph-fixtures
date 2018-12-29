@@ -14,7 +14,7 @@ namespace Prooph\Fixtures\Tests\Fixtures;
 use Prooph\Fixtures\Fixture\DependentFixture;
 use Prooph\Fixtures\Fixture\ShortNameFixture;
 
-class ArticlesCircularReferenceFixture extends DependentFixture
+class ArticlesCircularReferenceFixture implements DependentFixture
 {
     use ShortNameFixture;
 
