@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Prooph\Fixtures\Locator;
+namespace Prooph\Fixtures\Provider;
 
 use Prooph\Fixtures\Fixture\Fixture;
 use Psr\Container\ContainerInterface;
 
-interface FixturesLocator extends ContainerInterface
+interface FixturesProvider extends ContainerInterface
 {
     /**
      * {@inheritdoc}
@@ -34,5 +34,5 @@ interface FixturesLocator extends ContainerInterface
      *
      * @return Fixture[]
      */
-    public function getFixtures(): array;
+    public function all(): array;
 }

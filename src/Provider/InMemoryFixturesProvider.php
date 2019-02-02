@@ -9,8 +9,8 @@
 
 declare(strict_types=1);
 
-namespace Prooph\Fixtures\Locator;
+namespace Prooph\Fixtures\Provider;
 
-class InMemoryFixturesLocator extends AbstractFixturesLocator
+class InMemoryFixturesProvider extends AbstractFixturesProvider
 {
 }

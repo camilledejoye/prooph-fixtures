@@ -15,14 +15,14 @@ use Prooph\EventStore\Exception\RuntimeException;
 use Prooph\Fixtures\Cleaner\Cleaner;
 use Prooph\Fixtures\Fixture\DependentFixture;
 use Prooph\Fixtures\Fixture\Fixture;
-use Prooph\Fixtures\Locator\FixturesLocator;
+use Prooph\Fixtures\Provider\FixturesProvider;
 
 final class FixturesManager
 {
     /**
-     * @var FixturesLocator
+     * @var FixturesProvider
      */
-    private $fixturesLocator;
+    private $fixturesProvider;
 
     /**
      * @var Cleaner
@@ -32,12 +32,12 @@ final class FixturesManager
     /**
      * Creates a new fixtures manager.
      *
-     * @param FixturesLocator $fixturesLocator
+     * @param FixturesProvider $fixturesProvider
      * @param Cleaner $cleaner
      */
-    public function __construct(FixturesLocator $fixturesLocator, Cleaner $cleaner)
+    public function __construct(FixturesProvider $fixturesProvider, Cleaner $cleaner)
     {
-        $this->fixturesLocator = $fixturesLocator;
+        $this->fixturesProvider = $fixturesProvider;
         $this->cleaner = $cleaner;
     }
 
@@ -66,7 +66,7 @@ final class FixturesManager
     private function orderFixturesByDependencies(): array
     {
         $orderedFixtures = [];
-        $unorderedFixtures = $this->fixturesLocator->getFixtures();
+        $unorderedFixtures = $this->fixturesProvider->all();
         \ksort($unorderedFixtures, SORT_NATURAL);
 
         // Put all fixtures without dependencies in front
@@ -125,7 +125,7 @@ final class FixturesManager
                 ));
             }
 
-            if (! $this->fixturesLocator->has($dependencyFqn)) {
+            if (! $this->fixturesProvider->has($dependencyFqn)) {
                 throw new RuntimeException(\sprintf(
                     'The dependency "%s" of the fixture "%s" is not loaded.'
                     . ' Please check that it is proprely configured.',

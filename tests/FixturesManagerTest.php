@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Prooph\EventStore\Exception\RuntimeException;
 use Prooph\Fixtures\Cleaner\Cleaner;
 use Prooph\Fixtures\FixturesManager;
-use Prooph\Fixtures\Locator\FixturesLocator;
+use Prooph\Fixtures\Provider\FixturesProvider;
 use Prooph\Fixtures\Tests\Fixtures\ArticlesCircularReferenceFixture;
 use Prooph\Fixtures\Tests\Fixtures\ArticlesFixture;
 use Prooph\Fixtures\Tests\Fixtures\CommentsCircularReferenceFixture;
@@ -45,7 +45,7 @@ class FixturesManagerTest extends TestCase
 
     protected function setUp()
     {
-        $this->fixturesLocator = $this->getMockForAbstractClass(FixturesLocator::class);
+        $this->fixturesLocator = $this->getMockForAbstractClass(FixturesProvider::class);
         $this->cleaner = $this->getMockForAbstractClass(Cleaner::class);
 
         $this->sut = new FixturesManager(
@@ -150,7 +150,7 @@ class FixturesManagerTest extends TestCase
 
         $this->fixturesLocator
             ->expects($this->any())
-            ->method('getFixtures')
+            ->method('all')
             ->willReturn($fixturesMap);
 
         $this->fixturesLocator

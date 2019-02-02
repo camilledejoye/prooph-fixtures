@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Prooph\Fixtures\Locator;
+namespace Prooph\Fixtures\Provider;
 
 use Prooph\Fixtures\Fixture\Fixture;
 
 /**
  * @method Prooph\Fixtures\Fixture get($id)
  */
-abstract class AbstractFixturesLocator implements FixturesLocator
+abstract class AbstractFixturesProvider implements FixturesProvider
 {
     /**
      * @var Fixture[]
@@ -56,7 +56,7 @@ abstract class AbstractFixturesLocator implements FixturesLocator
     /**
      * {@inheritdoc}
      */
-    public function getFixtures(): array
+    public function all(): array
     {
         return $this->fixtures;
     }
