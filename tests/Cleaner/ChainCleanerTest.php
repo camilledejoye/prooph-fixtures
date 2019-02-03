@@ -48,6 +48,18 @@ final class ChainCleanerTest extends TestCase
         $this->assertEquals(1, $secondCleaner->order);
     }
 
+    /**
+     * @test
+     *
+     * For test coverage sake, I had some time to waste :D
+     */
+    public function it_add_multiple_cleaners_and_returns_itself()
+    {
+        $sut = new ChainCleaner();
+
+        $this->assertInstanceOf(ChainCleaner::class, $sut->addCleaners([]));
+    }
+
     private function createCleaner(): Cleaner
     {
         return new SaveOrderCleaner();

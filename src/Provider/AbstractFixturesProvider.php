@@ -40,7 +40,7 @@ abstract class AbstractFixturesProvider implements FixturesProvider
      *
      * @return Fixture|null
      */
-    public function get($id)
+    public function get($id): ?Fixture
     {
         return $this->fixtures[$id] ?? null;
     }
@@ -48,7 +48,7 @@ abstract class AbstractFixturesProvider implements FixturesProvider
     /**
      * {@inheritdoc}
      */
-    public function has($id)
+    public function has($id): bool
     {
         return isset($this->fixtures[$id]);
     }
@@ -68,7 +68,7 @@ abstract class AbstractFixturesProvider implements FixturesProvider
      *
      * @return static
      */
-    protected function addFixtures(iterable $fixtures)
+    protected function addFixtures(iterable $fixtures): self
     {
         foreach ($fixtures as $fixture) {
             $this->addFixture($fixture);
@@ -85,7 +85,7 @@ abstract class AbstractFixturesProvider implements FixturesProvider
      *
      * @return static
      */
-    protected function addFixture(Fixture $fixture)
+    protected function addFixture(Fixture $fixture): self
     {
         $fixtureId = $this->getId($fixture);
 
