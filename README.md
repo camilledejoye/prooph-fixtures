@@ -16,6 +16,12 @@ Oh, sweet Composer!
 composer require --dev elythyr/prooph-fixtures
 ```
 
+### Versions management
+Since its a practice project, I don't really care about BC breaks.
+I will only try to not break minor versions, meaning that:
+* Updating from `1.0.0` to `1.0.9` should not break anything
+* Updating from `1.0.0` to `1.1.0` might break a lot of stuff
+
 
 ## Configuration
 
@@ -31,34 +37,41 @@ An example of how to configure the pieces together:
 ```php
 // /test.php
 
-// Replace it by your own container or retrieve everything manually :'(
-$youContainer = new class() implements ContainerInterface {
+// Configure your system:
+// Replace it by your own container or create everything manually :'(
+$container = new class() implements ContainerInterface {
     public function has($id) { return false; }
     public function get($id) { return null; }
 };
 
-$eventStore = $yourContainer->get('event_store');
-$projectionManagersLocator = $yourContainer->get('projection_managers_locator');
-// The projection names must be the keys
-// The values are usually the id of the projection managers inside your container
-// They are not used, only the names of the projections are need
-$projectionManagerNames = $yourContainer->get('projection_manager_names');
+// Retrieve your event store
+$eventStore = $container->get('event_store');
 
-// Create a locator for your fixtures
-$fixturesLocator = new InMemoryFixturesLocator([
+// Create a provider for your fixtures
+$fixturesProvider = new InMemoryFixturesProvider([
     $youContainer->get('a_fixture'),
     $youContainer->get('another_fixture'),
     // ...
 ]);
 
+// Retrieve the cleaning projection strategy
+// No implementations are provided since it depends on your EventStore implementation
+$cleaningProjectionStrategy = $container->get('cleaning_projection_strategy');
+
+// Retrieve the names of all your projections
+$projectionsNames = $container->get('projections_names');
+
 // Create the cleaner you want to use, here we will clean both event streams and projections
 $cleaner = new ChainCleaner([
     new EventStreamsCleaner($eventStore),
-    new ProjectionsCleaner($projectionManagersLocator, $projectionManagerNames),
+    new ProjectionsCleaner(
+        $cleaningProjectionStrategy,
+        $projectionsNames
+    ),
 ]);
 
 // Create the fixtures manager, just a front to regroup everything in one place
-$fixturesManager = new FixturesManager($fixturesLocator, $cleaner);
+$fixturesManager = new FixturesManager($fixturesProvider, $cleaner);
 
 // Lets do some cleaning !
 $fixturesManager->cleanUp();
