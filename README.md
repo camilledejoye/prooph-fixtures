@@ -1,7 +1,7 @@
 # Prooph Fixtures
 
 [![Build Status](https://travis-ci.org/elythyr/prooph-fixtures.svg?branch=master)](https://travis-ci.org/elythyr/prooph-fixtures)
-[![Coverage Status](https://coveralls.io/repos/github/elythyr/prooph-fixtures/badge.svg?branch=master)](https://coveralls.io/github/elythyr/prooph-fixtures?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/github/elythyr/prooph-fixtures/master.svg)](https://coveralls.io/github/elythyr/prooph-fixtures?branch=master)
 
 During my experiments with ES I find myself in a situation where Doctrine data fixtures missed me.
 
