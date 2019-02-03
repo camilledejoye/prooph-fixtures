@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Prooph\Fixtures\Cleaner;
 
-use Prooph\EventStore\Exception\RuntimeException;
-use Psr\Container\ContainerInterface;
+use Prooph\EventStore\Exception\ProjectionNotFound;
+use Prooph\Fixtures\Cleaner\Exception\CleaningProjectionFailed;
 
 /**
  * Resets all the projections.
@@ -22,75 +22,40 @@ use Psr\Container\ContainerInterface;
 final class ProjectionsCleaner implements Cleaner
 {
     /**
-     * @var ContainerInterface
+     * @var CleaningProjectionStrategy
      */
-    private $projectionManagersLocator;
-
+    private $cleaningStrategy;
     /**
-     * @var array
+     * @var iterable
      */
-    private $projectionManagerNames;
-
-    /**
-     * @var int Number of projections handled at once.
-     */
-    private $batchSize;
+    private $projectionsNames;
 
     /**
      * Creates a new projections cleaner.
      *
-     * @param ContainerInterface $projectionManagersLocator
-     * @param array $projectionManagerNames
-     * @param int $batchSize Number of projections handled at once.
+     * @param CleaningProjectionStrategy $cleaningStrategy
+     * @param string[] $projectionsNames The names of the projections to clean.
      */
     public function __construct(
-        ContainerInterface $projectionManagersLocator,
-        array $projectionManagerNames,
-        int $batchSize = 10000
+        CleaningProjectionStrategy $cleaningStrategy,
+        iterable $projectionsNames
     ) {
-        $this->projectionManagersLocator = $projectionManagersLocator;
-        $this->projectionManagerNames = $projectionManagerNames;
-        $this->batchSize = $batchSize;
+        $this->cleaningStrategy = $cleaningStrategy;
+        $this->projectionsNames = $projectionsNames;
     }
 
     /**
-     * Cleans all the currently registered projections by resetting them.
-     * A projection is only register after having being runned manually.
+     * Cleans all the projections.
      *
      * @return void
+     *
+     * @throws ProjectionNotFound No projection was found for the given name.
+     * @throws CleaningProjectionFailed An error occured during the cleaning.
      */
     public function __invoke(): void
     {
-        foreach ($this->getAllProjectionManagers() as $projectionManager) {
-            $offset = 0;
-            while ($projectionNames = $projectionManager->fetchProjectionNames(null, $this->batchSize, $offset)) {
-                foreach ($projectionNames as $projectionName) {
-                    $projectionManager->resetProjection($projectionName);
-                }
-
-                $offset += $this->batchSize;
-            }
-        }
-    }
-
-    /**
-     * Gets all the projection managers.
-     *
-     * @return ProjectionManager[]
-     */
-    private function getAllProjectionManagers(): iterable
-    {
-        $projectionManagerNames = \array_keys($this->projectionManagerNames);
-
-        foreach ($projectionManagerNames as $projectionManagerName) {
-            if (! $this->projectionManagersLocator->has($projectionManagerName)) {
-                throw new RuntimeException(\sprintf(
-                    'Projection manager "%s" not found.',
-                    $projectionManagerName
-                ));
-            }
-
-            yield $this->projectionManagersLocator->get($projectionManagerName);
+        foreach ($this->projectionsNames as $projectionName) {
+            $this->cleaningStrategy->clean($projectionName);
         }
     }
 }
